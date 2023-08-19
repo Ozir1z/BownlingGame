@@ -29,6 +29,7 @@ namespace Bowling
             if (CurrentFrame > 1)
             {
                 var previousFrame = _frames[CurrentFrame - 2];
+
                 if (previousFrame.IsSpare && !currentFrame.IsFrameDone) // previous frame was spare
                 {
                     Score += pins;
@@ -40,7 +41,7 @@ namespace Bowling
                     Score += currentFrame.GetFrameScore();
 
                 }
-                if (!currentFrame.IsFrameDone && _OnStrikeStreak) //been on a strike streak, but currentframe is not we have to add that roll to the total score
+                if (_OnStrikeStreak && !currentFrame.IsFrameDone) //been on a strike streak, but currentframe is not we have to add that roll to the total score
                 {
                     Score += pins;
                     _OnStrikeStreak = false;
