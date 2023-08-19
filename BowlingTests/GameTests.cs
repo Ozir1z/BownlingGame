@@ -17,22 +17,31 @@ namespace BowlingTests
         [TestMethod]
         public void RollingBallResultsIntoScore()
         {
-            var game = new Game();
-            game.Roll(1);
-            game.Roll(3);
+            _game.Roll(1);
+            _game.Roll(3);
 
-            Assert.AreEqual(4, game.Score);
+            Assert.AreEqual(4, _game.Score);
         }
 
         [TestMethod]
         public void TwoRollsPerOpenFrame()
         {
-            var game = new Game();
-            game.Roll(1);
-            game.Roll(3);
-            game.Roll(4);
+            _game.Roll(1);
+            _game.Roll(3);
+            _game.Roll(4);
 
-            Assert.AreEqual(2, game.CurrentFrame);
+            Assert.AreEqual(2, _game.CurrentFrame);
+        }
+
+        [TestMethod]
+        public void ThrowAfterSpareGetsAddedToPreviousFrame()
+        {
+            _game.Roll(4);
+            _game.Roll(6);
+            _game.Roll(2);
+            _game.Roll(0);
+
+            Assert.AreEqual(14, _game.Score);
         }
     }
 }

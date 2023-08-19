@@ -24,6 +24,15 @@ namespace Bowling
             var currentFrame = _frames[CurrentFrame - 1];
             Score += currentFrame.Roll(pins);
 
+            if(CurrentFrame > 1)
+            {
+                var previousFrame = _frames[CurrentFrame - 2];
+                if (previousFrame.IsSpare && !currentFrame.IsFrameDone)
+                {
+                    Score += pins;
+                }
+            }
+
             if (currentFrame.IsFrameDone)
                 CurrentFrame++;
         }
@@ -32,6 +41,7 @@ namespace Bowling
     public class Frame
     {
         public bool IsFrameDone { get; private set; } = false;
+        public bool IsSpare { get; private set; } = false;
         private int _roll1 = -1;
         private int _roll2 = 0;
 
@@ -45,6 +55,7 @@ namespace Bowling
             {
                 _roll2 = pins;
                 IsFrameDone = true;
+                IsSpare = _roll1 + _roll2 == 10;
             }
 
             return pins;
