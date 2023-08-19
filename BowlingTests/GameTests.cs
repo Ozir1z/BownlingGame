@@ -11,7 +11,6 @@ namespace BowlingTests
         public void SetupGame()
         {
             _game = new Game();
-
         }
 
         [TestMethod]
@@ -36,12 +35,23 @@ namespace BowlingTests
         [TestMethod]
         public void ThrowAfterSpareGetsAddedToPreviousFrame()
         {
+            _game.Roll(7);
+            _game.Roll(3);
             _game.Roll(4);
-            _game.Roll(6);
             _game.Roll(2);
-            _game.Roll(0);
 
-            Assert.AreEqual(14, _game.Score);
+            Assert.AreEqual(20, _game.Score);
+        }
+
+        [TestMethod]
+        public void TwoThrowsAfterStrikeGetsAddedToPreviousFrame()
+        {
+            _game.Roll(10);
+            _game.Roll(10);
+            _game.Roll(4);
+            _game.Roll(2);
+
+            Assert.AreEqual(46, _game.Score);
         }
     }
 }

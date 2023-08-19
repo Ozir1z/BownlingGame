@@ -11,6 +11,7 @@ namespace Bowling
         public int Score { get; set; }
         public int CurrentFrame { get; set; } = 1;
         private readonly List<Frame> _frames = new(10);
+        private bool _OnStrikeStreak = false;
 
         public Game()
         {
@@ -22,15 +23,29 @@ namespace Bowling
         public void Roll(int pins)
         {
             var currentFrame = _frames[CurrentFrame - 1];
-            Score += currentFrame.Roll(pins);
+            currentFrame.Roll(pins);
+            Score += pins;
 
-            if(CurrentFrame > 1)
+            if (CurrentFrame > 1)
             {
                 var previousFrame = _frames[CurrentFrame - 2];
-                if (previousFrame.IsSpare && !currentFrame.IsFrameDone)
+                if (previousFrame.IsSpare && !currentFrame.IsFrameDone) // previous frame was spare
                 {
                     Score += pins;
                 }
+                if (previousFrame.IsStrike && currentFrame.IsFrameDone) // previous frame was strike
+                {
+                    if (currentFrame.IsStrike)
+                        _OnStrikeStreak = true;
+                    Score += currentFrame.GetFrameScore();
+
+                }
+                if (!currentFrame.IsFrameDone && _OnStrikeStreak) //been on a strike streak, but currentframe is not we have to add that roll to the total score
+                {
+                    Score += pins;
+                    _OnStrikeStreak = false;
+                }
+
             }
 
             if (currentFrame.IsFrameDone)
@@ -42,23 +57,24 @@ namespace Bowling
     {
         public bool IsFrameDone { get; private set; } = false;
         public bool IsSpare { get; private set; } = false;
+        public bool IsStrike { get; private set; } = false;
         private int _roll1 = -1;
         private int _roll2 = 0;
 
-        public int Roll(int pins)
+        public void Roll(int pins)
         {
-            if (IsFrameDone) return -1; // make custom OutOfFrameException
-
             if(_roll1 == -1)
+            {
                 _roll1 = pins;
+                IsStrike = _roll1 == 10;
+                if (IsStrike) IsFrameDone = true;
+            }
             else
             {
                 _roll2 = pins;
                 IsFrameDone = true;
                 IsSpare = _roll1 + _roll2 == 10;
             }
-
-            return pins;
         }
 
         public int GetFrameScore()
