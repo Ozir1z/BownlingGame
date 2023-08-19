@@ -63,6 +63,8 @@ namespace Bowling
 
         public void Roll(int pins)
         {
+            if (IsFrameDone) return; // throw OutOfFrownException
+
             if(_roll1 == -1)
             {
                 _roll1 = pins;
