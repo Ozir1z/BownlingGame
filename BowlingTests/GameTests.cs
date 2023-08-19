@@ -10,6 +10,8 @@ namespace BowlingTests
         {
             var game = new Game();
             game.Roll(1);
+
+            Assert.AreEqual(1, game.Score);
         }
     }
 }
