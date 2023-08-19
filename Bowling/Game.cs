@@ -24,28 +24,29 @@ namespace Bowling
             var currentFrame = _frames[CurrentFrame - 1];
             Score += currentFrame.Roll(pins);
 
-            if (currentFrame.IsFrameDone())
+            if (currentFrame.IsFrameDone)
                 CurrentFrame++;
         }
     }
 
     public class Frame
     {
-        public int CurrentRole = 1;
-
-        private int _roll1 = 0;
+        public bool IsFrameDone { get; private set; } = false;
+        private int _roll1 = -1;
         private int _roll2 = 0;
 
         public int Roll(int pins)
         {
-            if (CurrentRole > 2) return -1; // make custom OutOfFrameException
+            if (IsFrameDone) return -1; // make custom OutOfFrameException
 
-            if(CurrentRole == 1)
+            if(_roll1 == -1)
                 _roll1 = pins;
-            else if(CurrentRole == 2)
+            else
+            {
                 _roll2 = pins;
+                IsFrameDone = true;
+            }
 
-            CurrentRole++;
             return pins;
         }
 
@@ -53,7 +54,5 @@ namespace Bowling
         {
            return _roll1 + _roll2;
         }
-
-        public bool IsFrameDone() => CurrentRole > 2;
     }
 }
