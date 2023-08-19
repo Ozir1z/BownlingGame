@@ -27,6 +27,7 @@ namespace BowlingTests
         {
             _game.Roll(1);
             _game.Roll(3);
+
             _game.Roll(4);
 
             Assert.AreEqual(2, _game.CurrentFrame);
@@ -37,6 +38,7 @@ namespace BowlingTests
         {
             _game.Roll(7);
             _game.Roll(3);
+
             _game.Roll(4);
             _game.Roll(2);
 
@@ -47,11 +49,87 @@ namespace BowlingTests
         public void TwoThrowsAfterStrikeGetsAddedToPreviousFrame()
         {
             _game.Roll(10);
+
             _game.Roll(10);
+
             _game.Roll(4);
             _game.Roll(2);
 
             Assert.AreEqual(46, _game.Score);
+        }
+
+        [TestMethod]
+        public void OneExtraThrowsAfter10thFrameIsSpare()
+        {
+            _game.Roll(10);
+
+            _game.Roll(1);
+            _game.Roll(7);
+
+            _game.Roll(3);
+            _game.Roll(4);
+
+            _game.Roll(10);
+
+            _game.Roll(1);
+            _game.Roll(0);
+
+            _game.Roll(0);
+            _game.Roll(9);
+
+            _game.Roll(2);
+            _game.Roll(0);
+
+            _game.Roll(0);
+            _game.Roll(0);
+
+            _game.Roll(6);
+            _game.Roll(4);
+
+            _game.Roll(1);
+            _game.Roll(9);
+
+            //extra roll
+            _game.Roll(4);
+
+            Assert.AreEqual(81, _game.Score);
+        }
+
+        [TestMethod]
+        public void TwoExtraThrowsAfter10thFrameIsStrike()
+        {
+            _game.Roll(10);
+
+            _game.Roll(1);
+            _game.Roll(7);
+
+            _game.Roll(3);
+            _game.Roll(4);
+
+            _game.Roll(10);
+
+            _game.Roll(1);
+            _game.Roll(0);
+
+            _game.Roll(0);
+            _game.Roll(9);
+
+            _game.Roll(2);
+            _game.Roll(0);
+
+            _game.Roll(0);
+            _game.Roll(0);
+
+            _game.Roll(6);
+            _game.Roll(4);
+
+            _game.Roll(10);
+
+            //exrta rolls
+            _game.Roll(4);
+            _game.Roll(2);
+
+            Assert.AreEqual(92, _game.Score);
         }
     }
 }

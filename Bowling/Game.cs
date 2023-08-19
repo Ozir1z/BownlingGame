@@ -10,19 +10,33 @@ namespace Bowling
     {
         public int Score { get; set; }
         public int CurrentFrame { get; set; } = 1;
-        private readonly List<Frame> _frames = new(10);
+        private readonly List<Frame> _frames = new();
         private bool _OnStrikeStreak = false;
+        private bool _isGameDone = false;
+        private int extraThrows = 0;
+
 
         public Game()
         {
             for(int i = 0; i < 10 ; i++)
             {
-                _frames.Add(new Frame());
+                _frames.Add(new Frame()); // initialize 11 frames (10 base frames and a potential bonus frame)
             }
         }
         public void Roll(int pins)
         {
+            if (_isGameDone) return;
+
+            if(extraThrows > 0)
+            {
+                Score += pins;
+                extraThrows--;
+                if (extraThrows == 0) _isGameDone = true;
+                return;
+            }
+
             var currentFrame = _frames[CurrentFrame - 1];
+
             currentFrame.Roll(pins);
             Score += pins;
 
@@ -30,7 +44,7 @@ namespace Bowling
             {
                 var previousFrame = _frames[CurrentFrame - 2];
 
-                if (previousFrame.IsSpare && !currentFrame.IsFrameDone) // previous frame was spare
+                if (previousFrame.IsSpare && (!currentFrame.IsFrameDone || currentFrame.IsStrike)) // previous frame was spare
                 {
                     Score += pins;
                 }
@@ -41,7 +55,7 @@ namespace Bowling
                     Score += currentFrame.GetFrameScore();
 
                 }
-                if (_OnStrikeStreak && !currentFrame.IsFrameDone) //been on a strike streak, but currentframe is not we have to add that roll to the total score
+                if (_OnStrikeStreak && !currentFrame.IsFrameDone) //been on a strike streak, but currentframe is not a strike we have to add that roll to the total score and end the streak
                 {
                     Score += pins;
                     _OnStrikeStreak = false;
@@ -49,8 +63,17 @@ namespace Bowling
 
             }
 
+            if (CurrentFrame == 10) // last frame, check for extra shots
+            {
+                if (currentFrame.IsSpare) extraThrows = 1;
+                else if (currentFrame.IsStrike) extraThrows = 2;
+                else if(currentFrame.IsFrameDone) _isGameDone = true;
+                return;
+            }
+
             if (currentFrame.IsFrameDone)
                 CurrentFrame++;
+
         }
     }
 
