@@ -1,14 +1,13 @@
-﻿using System.Net.NetworkInformation;
-
+﻿
 namespace Bowling
 {
     public class Game
     {
-        public int Score => CalucalteScore();
         public int CurrentFrameNumber { get; set; } = 1;
+        public int Score => _frames.Sum(x => x.FrameScore);
 
-        private readonly List<Frame> _frames = new();
         private bool _isGameDone = false;
+        private readonly List<Frame> _frames = new();
 
         public Game()
         {
@@ -53,16 +52,5 @@ namespace Bowling
                 twoRollsAgoFrame.TryAndAddBonusScore(pins);
             }
         }
-
-        public int CalucalteScore()
-        {
-            var score = 0;
-            foreach( var frame in _frames)
-            {
-                score += frame.FrameScore;
-            }
-            return score;
-        }
-
     }
 }
