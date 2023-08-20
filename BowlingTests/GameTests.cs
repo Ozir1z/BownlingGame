@@ -14,7 +14,7 @@ namespace BowlingTests
         }
 
         [TestMethod]
-        public void RollingBallResultsIntoScore()
+        public void RollingBallShouldResultIntoScor()
         {
             _game.Roll(1);
             _game.Roll(3);
@@ -23,14 +23,14 @@ namespace BowlingTests
         }
 
         [TestMethod]
-        public void TwoRollsPerOpenFrame()
+        public void AfterTwoRollsShouldBeAtTheSecondFrame()
         {
             _game.Roll(1);
             _game.Roll(3);
 
             _game.Roll(4);
 
-            Assert.AreEqual(2, _game.CurrentFrame);
+            Assert.AreEqual(2, _game.CurrentFrameNumber);
         }
 
         [TestMethod]
@@ -48,15 +48,36 @@ namespace BowlingTests
         [TestMethod]
         public void TwoThrowsAfterStrikeGetsAddedToPreviousFrame()
         {
-            _game.Roll(10);
+            _game.Roll(10); //24
 
-            _game.Roll(10);
+            _game.Roll(10); //16
 
             _game.Roll(4);
             _game.Roll(2);
 
             Assert.AreEqual(46, _game.Score);
         }
+
+        [TestMethod]
+        public void TwoThrowsAfterStrikeGetsAddedToPreviousFrame2()
+        {
+            _game.Roll(10); //22
+
+            _game.Roll(10); //14
+
+            _game.Roll(2);
+            _game.Roll(2); //4
+                            //40
+            _game.Roll(10); //24
+
+            _game.Roll(10); //16
+
+            _game.Roll(4);
+            _game.Roll(2);// 6
+
+            Assert.AreEqual(86, _game.Score);
+        }
+
 
         [TestMethod]
         public void OneExtraThrowsAfter10thFrameIsSpare()
@@ -130,6 +151,72 @@ namespace BowlingTests
             _game.Roll(2);
 
             Assert.AreEqual(92, _game.Score);
+        }
+
+        [TestMethod]
+        public void GutterBallGameScoreShouldBeZero()
+        {
+            _game.Roll(0);
+            _game.Roll(0);
+
+            _game.Roll(0);
+            _game.Roll(0);
+
+            _game.Roll(0);
+            _game.Roll(0);
+
+            _game.Roll(0);
+            _game.Roll(0);
+
+            _game.Roll(0);
+            _game.Roll(0);
+
+            _game.Roll(0);
+            _game.Roll(0);
+
+            _game.Roll(0);
+            _game.Roll(0);
+
+            _game.Roll(0);
+            _game.Roll(0);
+
+            _game.Roll(0);
+            _game.Roll(0);
+
+            _game.Roll(0);
+            _game.Roll(0);
+
+            Assert.AreEqual(0, _game.Score);
+        }
+
+        [TestMethod]
+        public void PerfectGameShouldGive300()
+        {
+            _game.Roll(10);
+
+            _game.Roll(10); 
+
+            _game.Roll(10);
+
+            _game.Roll(10);
+
+            _game.Roll(10);
+
+            _game.Roll(10);
+
+            _game.Roll(10);
+
+            _game.Roll(10);
+
+            _game.Roll(10);
+
+            _game.Roll(10);
+
+            _game.Roll(10);
+
+            _game.Roll(10);
+
+            Assert.AreEqual(300, _game.Score);
         }
     }
 }
