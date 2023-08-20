@@ -23,9 +23,9 @@ namespace Bowling
 
             var currentFrame = _frames[CurrentFrameNumber - 1];
 
-            if (currentFrame.IsFrameDone && CurrentFrameNumber == 10) // last frame
+            if (currentFrame.IsFrameComplete && CurrentFrameNumber == 10) // last frame
             {
-                currentFrame.TryAndAddBonusScore(pins);
+                currentFrame.BonusRoll(pins);
 
                 if (_isGameDone = currentFrame.IsFrameCompleteWithBonusScores)
                     return;//game is done
@@ -34,7 +34,7 @@ namespace Bowling
             currentFrame.Roll(pins);
             AddCurrentRollToPreviousSparesAndOrStrikes(pins);
 
-            if (currentFrame.IsFrameDone && CurrentFrameNumber != 10)
+            if (currentFrame.IsFrameComplete && CurrentFrameNumber != 10)
                 CurrentFrameNumber++;
 
         }
@@ -44,12 +44,12 @@ namespace Bowling
             if (CurrentFrameNumber > 1)
             {
                 var previousFrame = _frames[CurrentFrameNumber - 2];
-                previousFrame.TryAndAddBonusScore(pins);
+                previousFrame.BonusRoll(pins);
             }
             if (CurrentFrameNumber > 2)
             {
                 var twoRollsAgoFrame = _frames[CurrentFrameNumber - 3];
-                twoRollsAgoFrame.TryAndAddBonusScore(pins);
+                twoRollsAgoFrame.BonusRoll(pins);
             }
         }
     }

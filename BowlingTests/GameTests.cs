@@ -48,9 +48,9 @@ namespace BowlingTests
         [TestMethod]
         public void TwoThrowsAfterStrikeGetsAddedToPreviousFrame()
         {
-            _game.Roll(10); //24
+            _game.Roll(10);
 
-            _game.Roll(10); //16
+            _game.Roll(10);
 
             _game.Roll(4);
             _game.Roll(2);
@@ -61,19 +61,19 @@ namespace BowlingTests
         [TestMethod]
         public void TwoThrowsAfterStrikeGetsAddedToPreviousFrame2()
         {
-            _game.Roll(10); //22
+            _game.Roll(10);
 
-            _game.Roll(10); //14
+            _game.Roll(10); 
 
             _game.Roll(2);
-            _game.Roll(2); //4
-                            //40
-            _game.Roll(10); //24
+            _game.Roll(2); 
+                            
+            _game.Roll(10);
 
-            _game.Roll(10); //16
+            _game.Roll(10);
 
             _game.Roll(4);
-            _game.Roll(2);// 6
+            _game.Roll(2);
 
             Assert.AreEqual(86, _game.Score);
         }
@@ -110,7 +110,7 @@ namespace BowlingTests
             _game.Roll(1);
             _game.Roll(9);
 
-            //extra roll
+            //10th frame bonus rolls roll
             _game.Roll(4);
 
             Assert.AreEqual(81, _game.Score);
@@ -146,7 +146,7 @@ namespace BowlingTests
 
             _game.Roll(10);
 
-            //exrta rolls
+            //10th frame bonus rolls rolls
             _game.Roll(4);
             _game.Roll(2);
 
@@ -154,7 +154,7 @@ namespace BowlingTests
         }
 
         [TestMethod]
-        public void GutterBallGameScoreShouldBeZero()
+        public void GutterBallGameScoreShouldBe0()
         {
             _game.Roll(0);
             _game.Roll(0);
@@ -212,8 +212,8 @@ namespace BowlingTests
 
             _game.Roll(10);
 
+            //10th frame bonus rolls rolls
             _game.Roll(10);
-
             _game.Roll(10);
 
             Assert.AreEqual(300, _game.Score);

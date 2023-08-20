@@ -5,9 +5,9 @@ namespace Bowling
 {
     public class Frame
     {
-        public bool IsSpare => _roll1 + _roll2 == _totalPins;
+        public bool IsSpare => !IsStrike && _roll1 + _roll2 == _totalPins;
         public bool IsStrike => _roll1 == _totalPins;
-        public bool IsFrameDone { get; private set; } = false;
+        public bool IsFrameComplete { get; private set; } = false;
         public bool IsFrameCompleteWithBonusScores { get; private set; } = false;
         public int FrameScore { get; private set; }
 
@@ -20,42 +20,48 @@ namespace Bowling
 
         public void Roll(int pins)
         {
-            if (IsFrameDone) 
+            if (IsFrameComplete) 
                 return;
             if (IsInvalid(pins)) 
                 throw new InvalidFrameException($"Trying to knock over {InvalidPinsAmount(pins)} pins." +
                     $" There are only {_totalPins} pins total."); // throw InvalidFrameException
-       
+
             if (_roll1 == -1)
-            {
-                _roll1 = pins;
-                FrameScore += _roll1;
-                if (IsStrike)
-                {
-                    IsFrameDone = true;
-                    _extraRolls = 2;
-                }
-            }
+                Roll1(pins);
             else
-            {
-                _roll2 = pins;
-                FrameScore += _roll2;
-                IsFrameDone = true;
-                if (IsSpare)
-                    _extraRolls = 1;
-                else // no spare or strike
-                    IsFrameCompleteWithBonusScores = true;
-            }
+                Roll2(pins);
         }
 
-        public void TryAndAddBonusScore(int pins)
+        public void BonusRoll(int pins)
         {
-            if(_extraRolls > 0)
+            if (_extraRolls > 0)
             {
                 FrameScore += pins;
                 _extraRolls--;
             }
-            if (_extraRolls == 0) 
+            if (_extraRolls == 0)
+                IsFrameCompleteWithBonusScores = true;
+        }
+
+        private void Roll1(int pins)
+        {
+            _roll1 = pins;
+            FrameScore += _roll1;
+            if (IsStrike)
+            {
+                IsFrameComplete = true;
+                _extraRolls = 2;
+            }
+        }
+
+        private void Roll2(int pins)
+        {
+            _roll2 = pins;
+            FrameScore += _roll2;
+            IsFrameComplete = true;
+            if (IsSpare)
+                _extraRolls = 1;
+            else // no spare or strike
                 IsFrameCompleteWithBonusScores = true;
         }
     }
