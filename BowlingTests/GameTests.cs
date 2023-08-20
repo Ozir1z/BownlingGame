@@ -20,6 +20,7 @@ namespace BowlingTests
             _game.Roll(3);
 
             Assert.AreEqual(4, _game.Score);
+            Assert.AreEqual(false, _game.IsGameDone);
         }
 
         [TestMethod]
@@ -31,6 +32,7 @@ namespace BowlingTests
             _game.Roll(4);
 
             Assert.AreEqual(2, _game.CurrentFrameNumber);
+            Assert.AreEqual(false, _game.IsGameDone);
         }
 
         [TestMethod]
@@ -43,6 +45,7 @@ namespace BowlingTests
             _game.Roll(2);
 
             Assert.AreEqual(20, _game.Score);
+            Assert.AreEqual(false, _game.IsGameDone);
         }
 
         [TestMethod]
@@ -56,6 +59,7 @@ namespace BowlingTests
             _game.Roll(2);
 
             Assert.AreEqual(46, _game.Score);
+            Assert.AreEqual(false, _game.IsGameDone);
         }
 
         [TestMethod]
@@ -76,6 +80,7 @@ namespace BowlingTests
             _game.Roll(2);
 
             Assert.AreEqual(86, _game.Score);
+            Assert.AreEqual(false, _game.IsGameDone);
         }
 
 
@@ -114,6 +119,7 @@ namespace BowlingTests
             _game.Roll(4);
 
             Assert.AreEqual(81, _game.Score);
+            Assert.AreEqual(true, _game.IsGameDone);
         }
 
         [TestMethod]
@@ -151,6 +157,7 @@ namespace BowlingTests
             _game.Roll(2);
 
             Assert.AreEqual(92, _game.Score);
+            Assert.AreEqual(true, _game.IsGameDone);
         }
 
         [TestMethod]
@@ -187,6 +194,7 @@ namespace BowlingTests
             _game.Roll(0);
 
             Assert.AreEqual(0, _game.Score);
+            Assert.AreEqual(true, _game.IsGameDone);
         }
 
         [TestMethod]
@@ -217,6 +225,7 @@ namespace BowlingTests
             _game.Roll(10);
 
             Assert.AreEqual(300, _game.Score);
+            Assert.AreEqual(true, _game.IsGameDone);
         }
 
         [TestMethod]

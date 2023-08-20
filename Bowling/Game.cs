@@ -1,17 +1,22 @@
 ﻿
+using System.Linq;
+using System.Text;
+
 namespace Bowling
 {
     public class Game
     {
-        public int CurrentFrameNumber { get; set; } = 1;
+        public int CurrentFrameNumber { get; private set; } = 1;
+        public bool IsGameDone { get; private set; } = false;
         public int Score => _frames.Sum(x => x.FrameScore);
 
-        private bool _isGameDone = false;
+        public int TotalRolls = 1;
+        private readonly int _totalFrames = 10;
         private readonly List<Frame> _frames = new();
 
         public Game()
         {
-            for(int i = 0; i < 10 ; i++)
+            for(int i = 0; i < _totalFrames; i++)
             {
                 _frames.Add(new Frame()); // initialize 11 frames (10 base frames and a potential bonus frame)
             }
@@ -19,24 +24,52 @@ namespace Bowling
 
         public void Roll(int pins)
         {
-            if (_isGameDone) return;
+            if (IsGameDone) return;
+            var curerntFrame = _frames[CurrentFrameNumber - 1];
 
-            var currentFrame = _frames[CurrentFrameNumber - 1];
-
-            if (currentFrame.IsFrameComplete && CurrentFrameNumber == 10) // last frame
+            if (curerntFrame.IsFrameComplete && CurrentFrameNumber == _totalFrames) // 10th frame bonus rolls
             {
-                currentFrame.BonusRoll(pins);
+                curerntFrame.BonusRoll(pins);
 
-                if (_isGameDone = currentFrame.IsFrameCompleteWithBonusScores)
+                if (IsGameDone = curerntFrame.IsFrameCompleteWithBonusScores)
                     return;//game is done
             }
 
-            currentFrame.Roll(pins);
+            curerntFrame.Roll(pins);
+            AddTotalRolls(curerntFrame);
             AddCurrentRollToPreviousSparesAndOrStrikes(pins);
 
-            if (currentFrame.IsFrameComplete && CurrentFrameNumber != 10)
-                CurrentFrameNumber++;
+            if (CurrentFrameNumber == _totalFrames)
+                IsGameDone = curerntFrame.IsFrameCompleteWithBonusScores;
 
+            if (curerntFrame.IsFrameComplete && CurrentFrameNumber != _totalFrames)
+                CurrentFrameNumber++;
+        }
+
+        private void AddTotalRolls(Frame curerntFrame)
+        {
+            TotalRolls++;
+            if (curerntFrame.IsStrike)
+                TotalRolls++;
+        }
+
+        public override string ToString()
+        {
+            var gameScoreString = new StringBuilder();
+
+            //frame number
+            gameScoreString.AppendLine("");
+            gameScoreString.Append(string.Format("{0, 5} ", "frame |"));
+            for (int i = 0; i < _frames.Count; i++)
+                gameScoreString.Append(string.Format("{0, 5}   |", i + 1));
+
+            //score
+            gameScoreString.AppendLine("");
+            gameScoreString.Append(string.Format("{0, 5} ", "score |"));
+            for (int i = 0; i < _frames.Count; i++)
+                gameScoreString.Append(string.Format("{0, 7} |", _frames[i]));
+
+            return gameScoreString.ToString();
         }
 
         private void AddCurrentRollToPreviousSparesAndOrStrikes(int pins)

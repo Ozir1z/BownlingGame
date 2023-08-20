@@ -4,6 +4,8 @@ This is a code challenge for OnSharp, it's a simple bowling game as a console ap
 ## How it works:
 A player gets to play 10 frames (10 turns), 2 throws per turn.
 
+You can run the console app and give number of pins you want to hit per roll.
+
 ### Types of frames:
 
 **Open Frame**\

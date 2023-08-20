@@ -1,5 +1,4 @@
-﻿using System.Net.NetworkInformation;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace Bowling
 {
@@ -13,7 +12,7 @@ namespace Bowling
 
         private readonly int _totalPins = 10;
         private int _roll1 = -1;
-        private int _roll2 = 0;
+        private int _roll2 = -1;
         private int _extraRolls = 0;
         private bool IsInvalid(int pins) => pins > _totalPins || _roll1 + pins > _totalPins;
         private int InvalidPinsAmount(int pins) => pins > _totalPins ? pins : _roll1 + pins;
@@ -43,6 +42,13 @@ namespace Bowling
                 IsFrameCompleteWithBonusScores = true;
         }
 
+        public override string ToString()
+        {
+            var stringRoll1 = _roll1 == -1 ? " " : _roll1.ToString();
+            var stringRoll2 = _roll2 == -1 ? " " : _roll2.ToString();
+            return $"{stringRoll1} / {stringRoll2}";
+        }
+
         private void Roll1(int pins)
         {
             _roll1 = pins;
@@ -61,7 +67,7 @@ namespace Bowling
             IsFrameComplete = true;
             if (IsSpare)
                 _extraRolls = 1;
-            else // no spare or strike
+            else // open frame
                 IsFrameCompleteWithBonusScores = true;
         }
     }
