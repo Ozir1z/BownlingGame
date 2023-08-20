@@ -38,8 +38,12 @@ namespace Bowling
                 Console.ForegroundColor = ConsoleColor.Green;
                 PrintScoreBoard(game);
 
-                if (game.TotalRolls > 20 && !game.IsGameDone)
+                if (game.TotalRolls >= 20 && !game.IsGameDone)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"BONUS ROLL!");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                }
             }
         }
 
@@ -74,6 +78,7 @@ namespace Bowling
             Console.WriteLine($"Current frame: {game.CurrentFrameNumber}");
             Console.WriteLine($"Current score: {game.Score}");
             Console.WriteLine(game.ToString());
+            Console.WriteLine($"Enter number to roll:");
         }
     }
 }

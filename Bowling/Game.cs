@@ -10,7 +10,7 @@ namespace Bowling
         public bool IsGameDone { get; private set; } = false;
         public int Score => _frames.Sum(x => x.FrameScore);
 
-        public int TotalRolls = 1;
+        public int TotalRolls = 0;
         private readonly int _totalFrames = 10;
         private readonly List<Frame> _frames = new();
 
