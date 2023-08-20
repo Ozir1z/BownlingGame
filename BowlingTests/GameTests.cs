@@ -218,5 +218,20 @@ namespace BowlingTests
 
             Assert.AreEqual(300, _game.Score);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidFrameException))]
+        public void MoreThan10PinsOnFirstRollOfFramShouldThrowException()
+        {
+            _game.Roll(11);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidFrameException))]
+        public void MoreThan10PinsCombinedOnBothRollsOfFramShouldThrowException()
+        {
+            _game.Roll(9);
+            _game.Roll(2);
+        }
     }
 }
