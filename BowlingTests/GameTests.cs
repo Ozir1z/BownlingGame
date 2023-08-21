@@ -163,35 +163,8 @@ namespace BowlingTests
         [TestMethod]
         public void GutterBallGameScoreShouldBe0()
         {
-            _game.Roll(0);
-            _game.Roll(0);
-
-            _game.Roll(0);
-            _game.Roll(0);
-
-            _game.Roll(0);
-            _game.Roll(0);
-
-            _game.Roll(0);
-            _game.Roll(0);
-
-            _game.Roll(0);
-            _game.Roll(0);
-
-            _game.Roll(0);
-            _game.Roll(0);
-
-            _game.Roll(0);
-            _game.Roll(0);
-
-            _game.Roll(0);
-            _game.Roll(0);
-
-            _game.Roll(0);
-            _game.Roll(0);
-
-            _game.Roll(0);
-            _game.Roll(0);
+            for(int i = 0; i < 20; i++) // 20 rolls, 2 per frame
+                _game.Roll(0);
 
             Assert.AreEqual(0, _game.Score);
             Assert.AreEqual(true, _game.IsGameDone);
@@ -200,25 +173,8 @@ namespace BowlingTests
         [TestMethod]
         public void PerfectGameShouldGive300()
         {
-            _game.Roll(10);
-
-            _game.Roll(10); 
-
-            _game.Roll(10);
-
-            _game.Roll(10);
-
-            _game.Roll(10);
-
-            _game.Roll(10);
-
-            _game.Roll(10);
-
-            _game.Roll(10);
-
-            _game.Roll(10);
-
-            _game.Roll(10);
+            for (int i = 0; i < 10; i++) // 10 strikes in a row
+                _game.Roll(10);
 
             //10th frame bonus rolls rolls
             _game.Roll(10);
