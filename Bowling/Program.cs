@@ -6,6 +6,7 @@ namespace Bowling
     {
         static void Main(string[] args)
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.Title = "Bownling Game";
             Console.WriteLine("Let's bowl! \n");
 
@@ -20,6 +21,8 @@ namespace Bowling
             }
 
             Console.WriteLine($"\nGame over, thanks for playing! You're total score is {game.Score}.");
+            Console.WriteLine($"Pres any key to exit");
+            Console.ReadLine();
         }
 
         private static void HandleGame(Game game, int pins)
@@ -78,7 +81,8 @@ namespace Bowling
             Console.WriteLine($"Current frame: {game.CurrentFrameNumber}");
             Console.WriteLine($"Current score: {game.Score}");
             Console.WriteLine(game.ToString());
-            Console.WriteLine($"Enter number to roll:");
+            if(!game.IsGameDone)
+                Console.WriteLine($"Enter number to roll:");
         }
     }
 }
