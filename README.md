@@ -1,6 +1,10 @@
 # BowlingGame
 This is a code challenge for OnSharp, it's a simple bowling game as a console app.
 
+## How to use
+Source files: Either download the latest source files and run it inside VS or build it and run the exe in the debug folder.\
+Release: download the latest release [here](https://github.com/Ozir1z/BownlingGame/releases), unzip and run the exe.
+
 ## How it works:
 A player gets to play 10 frames (10 turns), 2 throws per turn.
 
