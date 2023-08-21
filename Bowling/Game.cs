@@ -37,7 +37,7 @@ namespace Bowling
 
             curerntFrame.Roll(pins);
             AddTotalRolls(curerntFrame);
-            AddCurrentRollToPreviousSparesAndOrStrikes(pins);
+            AddCurrentRollToPreviousSparesAndStrikes(pins);
 
             if (CurrentFrameNumber == _totalFrames)
                 IsGameDone = curerntFrame.IsFrameCompleteWithBonusScores;
@@ -72,14 +72,14 @@ namespace Bowling
             return gameScoreString.ToString();
         }
 
-        private void AddCurrentRollToPreviousSparesAndOrStrikes(int pins)
+        private void AddCurrentRollToPreviousSparesAndStrikes(int pins)
         {
-            if (CurrentFrameNumber > 1)
+            if (CurrentFrameNumber > 1) //past the first roll
             {
                 var previousFrame = _frames[CurrentFrameNumber - 2];
                 previousFrame.BonusRoll(pins);
             }
-            if (CurrentFrameNumber > 2)
+            if (CurrentFrameNumber > 2) //past the second roll
             {
                 var twoRollsAgoFrame = _frames[CurrentFrameNumber - 3];
                 twoRollsAgoFrame.BonusRoll(pins);
